@@ -111,7 +111,14 @@ def toggle_sqs_lambda_event(
             print("待機中...")
 
 
-def run(initial_count: int, concurrency: int, increasing_rate: int):
+def run(initial_count: int, increasing_rate: int, concurrency: int):
+    """固定した初期条件において、シミュレーションを1回実行する。
+
+    Args:
+        initial_count (int): 最初にキューに貯めておくメッセージ数
+        increasing_rate (int): 1分あたりにキューに送信するメッセージ数
+        concurrency (int): キューを処理する Lambda 関数の最大並列数
+    """
     initialize(initial_count, concurrency)
     add_to_row(increasing_rate)
 

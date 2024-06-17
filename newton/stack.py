@@ -2,6 +2,9 @@ from aws_cdk import Stack, aws_lambda, aws_sqs, Duration, aws_lambda_event_sourc
 from constructs import Construct
 
 
+SLEEP_TIME = 6
+
+
 class NewtonStack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
@@ -26,7 +29,6 @@ class NewtonStack(Stack):
             dead_letter_queue=dead_letter_queue,
         )
 
-        sleep_time = 6
         _lambda = aws_lambda.Function(
             self,
             "NewtonHandler",
@@ -36,7 +38,7 @@ class NewtonStack(Stack):
             function_name="newton",
             timeout=Duration.seconds(30),
             environment={
-                "SLEEP_TIME": str(sleep_time)
+                "SLEEP_TIME": str(SLEEP_TIME)
             }
         )
         sqs_event_source = aws_lambda_event_sources.SqsEventSource(queue, enabled=False)
