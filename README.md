@@ -24,7 +24,8 @@
 ├── newton
 │   ├── __init__.py
 │   └── stack.py
-└── start_newton.py
+├── start_newton.py
+└── local_simulator.py
 ```
 
 * lambda/
@@ -99,4 +100,39 @@ if __name__ == "__main__":
 ```python
 if __name__ == "__main__":
     run(initial_count, concurrency, increasing_rate)
+```
+
+## ローカルで済ませてしまう
+
+ただローカルでシミュレーションしてしまう方法もある。
+
+以下の箇所で設定した定数を任意に書き換えて検証する。
+
+```python
+if __name__ == "__main__":
+    # 初期状態を用意
+    initial_length = 400
+    num_of_counter = 4
+    add_per_min = 20
+    line = Line(initial_length, num_of_counter, add_per_min)
+
+    # 実験
+    expected_time = 20.0
+    process_per_min_candidates = [5, 15, 20]  # ここを変更する
+    process_per_min = test(
+        initial_length,
+        num_of_counter,
+        add_per_min,
+        expected_time,
+        process_per_min_candidates,
+    )
+    if process_per_min:
+        print("=" * 32)
+        # 窓口を増やす
+        num_of_counter = 6
+        line = Line(initial_length, num_of_counter, add_per_min)
+        time = line.run(process_per_min)
+        print("総処理人数:", line.total_length)
+    else:
+        print("窓口ごとの想定処理能力の候補値を変更し、再度実行してください。")
 ```
