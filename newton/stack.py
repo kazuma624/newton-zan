@@ -6,7 +6,10 @@ SLEEP_TIME = 6
 
 
 class NewtonStack(Stack):
+    """ニュートン算シミュレーション用スタックの定義"""
+
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
+        """初期化処理"""
         super().__init__(scope, id, **kwargs)
 
         dlq = aws_sqs.Queue(
@@ -37,9 +40,11 @@ class NewtonStack(Stack):
             handler="newton.handler",
             function_name="newton",
             timeout=Duration.seconds(30),
-            environment={
-                "SLEEP_TIME": str(SLEEP_TIME)
-            }
+            environment={"SLEEP_TIME": str(SLEEP_TIME)},
         )
-        sqs_event_source = aws_lambda_event_sources.SqsEventSource(queue, enabled=False)
+        sqs_event_source = aws_lambda_event_sources.SqsEventSource(
+            queue,
+            enabled=False,
+            batch_size=1,
+        )
         _lambda.add_event_source(sqs_event_source)
