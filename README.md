@@ -117,6 +117,26 @@ if __name__ == "__main__":
     run(initial_count, concurrency, increasing_rate)
 ```
 
+## ログの確認
+
+CloudWatch Logs Insights で以下のクエリを実行することで、総メッセージを確認することができる。
+
+```sql
+fields @timestamp, @message, @logStream, @log
+| filter @message like /MessageBody/
+| sort @timestamp desc
+| limit 1000
+```
+
+---
+| @timestamp | @message | @logStream | @log |
+| --- | --- | --- | --- |
+| 2024-06-18 11:10:09.102 | MessageBody:  1130 | 2024/06/18/[$LATEST]654ed85f0cff45b48bb6c2d2b4ecfb47 | 867173532766:/aws/lambda/newton |
+| 2024-06-18 11:10:06.576 | MessageBody:  1129 | 2024/06/18/[$LATEST]89e5d486015f4d1e902a9eedb5cdef8c | 867173532766:/aws/lambda/newton |
+| 2024-06-18 11:10:04.256 | MessageBody:  1127 | 2024/06/18/[$LATEST]541b4d55e59444708ddc083fd75f1fd4 | 867173532766:/aws/lambda/newton |
+| 2024-06-18 11:09:59.451 | MessageBody:  1125 | 2024/06/18/[$LATEST]89e5d486015f4d1e902a9eedb5cdef8c | 867173532766:/aws/lambda/newton |
+
+
 ## AWS 利用料金の目安
 
 
