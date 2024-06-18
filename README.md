@@ -96,6 +96,8 @@ if __name__ == "__main__":
     run(initial_count, initial_concurrency, increasing_rate)
 ```
 
+**試してもまだ理論値通りにならない**
+
 ### 窓口を増やして実験する
 
 start_newton.py を以下のように編集する。
